@@ -1,0 +1,16 @@
+[
+{
+  "modid": "missilemanmod",
+  "name": "MissilemanMod",
+  "description": "Example placeholder mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Quarri6343"],
+  "credits": "Authors of this project",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
