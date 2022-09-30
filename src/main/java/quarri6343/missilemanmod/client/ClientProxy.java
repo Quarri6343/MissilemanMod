@@ -1,7 +1,11 @@
 package quarri6343.missilemanmod.client;
 
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
+import quarri6343.missilemanmod.MissilemanMod;
 import quarri6343.missilemanmod.common.CommonProxy;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,6 +21,6 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        
+        ModelLoader.setCustomModelResourceLocation(MissilemanMod.itemMissileLauncher, 0, new ModelResourceLocation(new ResourceLocation(MissilemanMod.MODID, "itemmissilelauncher"), "inventory"));
     }
 }

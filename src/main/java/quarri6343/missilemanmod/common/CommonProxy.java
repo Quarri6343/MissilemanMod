@@ -10,10 +10,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import quarri6343.missilemanmod.MissilemanMod;
 
 import java.util.function.Function;
 
-@Mod.EventBusSubscriber(modid = "missilemanmod")
+@Mod.EventBusSubscriber(modid = MissilemanMod.MODID)
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent e) {
@@ -31,6 +32,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(MissilemanMod.itemMissileLauncher);
     }
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {
