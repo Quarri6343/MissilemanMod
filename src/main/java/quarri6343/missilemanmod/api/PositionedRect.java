@@ -1,7 +1,6 @@
 package quarri6343.missilemanmod.api;
 
 import com.google.common.base.MoreObjects;
-import quarri6343.missilemanmod.client.Position;
 
 import java.util.Objects;
 

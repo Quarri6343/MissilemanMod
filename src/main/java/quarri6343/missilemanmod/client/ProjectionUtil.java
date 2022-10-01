@@ -2,9 +2,9 @@ package quarri6343.missilemanmod.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import quarri6343.missilemanmod.api.Position;
 import quarri6343.missilemanmod.api.PositionedRect;
 import quarri6343.missilemanmod.api.Size;
 
@@ -39,7 +39,7 @@ public class ProjectionUtil {
         return new PositionedRect(new Position(x, y), new Size(width, height));
     }
     
-    protected static Vector3f EntityPos2ScreenPos(Vector3f pos, int x, int y, int width, int height){
+    public static Vector3f EntityPos2ScreenPos(Vector3f pos, int x, int y, int width, int height){
         // render a frame
         setupCamera(getPositionedRect(x, y, width, height));
         
