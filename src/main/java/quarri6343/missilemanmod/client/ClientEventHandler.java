@@ -23,11 +23,11 @@ import quarri6343.missilemanmod.MissilemanMod;
 import javax.vecmath.Vector3f;
 import java.util.List;
 
+import static quarri6343.missilemanmod.common.ItemMissileLauncher.scanRange;
+
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientEventHandler {
-
-    public static final int scanRange = 30;
     
     @SubscribeEvent
     public static void onGameOverlayRender(RenderGameOverlayEvent.Post event) {

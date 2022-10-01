@@ -1,19 +1,25 @@
 package quarri6343.missilemanmod.common;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
+import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
+
 public class MissileEntity extends EntityTNTPrimed {
     
-    public MissileEntity(World worldIn, double x, double y, double z, EntityLivingBase igniter) {
+    private final EntityLivingBase target;
+    
+    public MissileEntity(World worldIn, double x, double y, double z, EntityLivingBase igniter, EntityLivingBase target) {
         super(worldIn, x, y, z, igniter);
+        this.target = target;
     }
     
     public MissileEntity(World worldIn){
         super(worldIn);
+        this.target = null;
     }
 
     @Override
@@ -22,30 +28,22 @@ public class MissileEntity extends EntityTNTPrimed {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-
-        if (!this.hasNoGravity())
-        {
-            this.motionY -= 0.03999999910593033D;
+        
+        Vector3d distance = new Vector3d(0,0,0);
+        if(!this.world.isRemote && target != null){
+            distance = new Vector3d(target.posX - posX,target.posY - posY,target.posZ - posZ);
+            Vector3f normalizedDist = new Vector3f((float) distance.x, (float) distance.y, (float) distance.z);
+            normalizedDist.normalize();
+            this.motionX = normalizedDist.getX();
+            this.motionY = normalizedDist.getY();
+            this.motionZ = normalizedDist.getZ();
+            this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         }
-
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9800000190734863D;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= 0.9800000190734863D;
-
-        if (this.onGround)
+        
+        if(Math.abs(distance.x) < 1 && Math.abs(distance.y) < 1 && Math.abs(distance.z) < 1)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
-            this.motionY *= -0.5D;
-        }
-
-        if (this.onGround)
-        {
-            this.setDead();
-
-            if (!this.world.isRemote)
-            {
+            if(!this.world.isRemote){
+                this.setDead();
                 this.explode();
             }
         }
