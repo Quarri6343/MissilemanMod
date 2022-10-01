@@ -32,30 +32,32 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onGameOverlayRender(RenderGameOverlayEvent.Post event) {
         EntityPlayer player = Minecraft.getMinecraft().player;
-        if (Minecraft.getMinecraft(). player.getHeldItemMainhand().getItem().equals(MissilemanMod.itemMissileLauncher)) {
+        if (Minecraft.getMinecraft().player.getHeldItemMainhand().getItem().equals(MissilemanMod.itemMissileLauncher)) {
             AxisAlignedBB playerRange = new AxisAlignedBB(player.posX - scanRange, player.posY - scanRange, player.posZ - scanRange, player.posX + scanRange, player.posY + scanRange, player.posZ + scanRange);
             List<EntityLiving> nearbyEntities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(EntityLiving.class, playerRange);
-            
-            if(nearbyEntities.size() > 0){
+
+            if (nearbyEntities.size() > 0) {
                 Minecraft mc = Minecraft.getMinecraft();
                 ProjectionUtil.setCameraLookAt(new Vector3f((float) player.posX, (float) player.posY + player.getEyeHeight(), (float) player.posZ),
-                        new Vector3f((float) (player.posX + player.getLookVec().x), (float)(player.posY + player.getEyeHeight() + player.getLookVec().y), (float)(player.posZ + player.getLookVec().z)),
-                        new Vector3f(0,1,0));
-                
-                for (int i = 0; i < nearbyEntities.size(); i ++){
+                        new Vector3f((float) (player.posX + player.getLookVec().x), (float) (player.posY + player.getEyeHeight() + player.getLookVec().y), (float) (player.posZ + player.getLookVec().z)),
+                        new Vector3f(0, 1, 0));
+
+                for (int i = 0; i < nearbyEntities.size(); i++) {
                     Vector3f winpos = ProjectionUtil.EntityPos2ScreenPos(new Vector3f((float) nearbyEntities.get(i).posX, (float) nearbyEntities.get(i).posY + nearbyEntities.get(i).getEyeHeight(), (float) nearbyEntities.get(i).posZ), 0, 0, mc.displayWidth, mc.displayHeight);
                     ScaledResolution resolution = new ScaledResolution(mc);
+                    if (winpos.x < 0 || winpos.x > mc.displayWidth || winpos.y < 0 || winpos.y > mc.displayHeight || winpos.z > 1)
+                        continue;
                     //translate gui coordinates to window's ones (y is inverted)
-                    int guiX = (int)(winpos.x / mc.displayWidth * resolution.getScaledWidth());
-                    int guiY = (int)((mc.displayHeight - winpos.y) / mc.displayHeight * resolution.getScaledHeight());
+                    int guiX = (int) (winpos.x / mc.displayWidth * resolution.getScaledWidth());
+                    int guiY = (int) ((mc.displayHeight - winpos.y) / mc.displayHeight * resolution.getScaledHeight());
 
                     ResourceHelper.bindTexture("textures/gui/crosshair.png");
                     GlStateManager.enableAlpha();
-                    Gui.drawScaledCustomSizeModalRect(guiX - 8, guiY - 8, 0, 0, 16,16, 16,16, 16,16);
+                    Gui.drawScaledCustomSizeModalRect(guiX - 8, guiY - 8, 0, 0, 16, 16, 16, 16, 16, 16);
                     GlStateManager.disableAlpha();
                 }
             }
-            
+
             //fix cooldown bar not drawing
             GlStateManager.enableDepth();
         }
